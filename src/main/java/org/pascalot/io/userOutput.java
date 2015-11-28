@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by hamisu on 11/23/15.
  */
-public class userOutput implements Serializable{
+public class UserOutput implements Serializable{
     private static final String SELF = Thread.currentThread().getStackTrace()[1].getClassName();
     private static final Logger logger = LoggerFactory.getLogger(SELF);
 }
