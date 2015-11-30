@@ -71,22 +71,18 @@ public class SimulatorMain
                         numberCommand = null;
                         isIntegerCommand = false;
                     }
-                    if(Character.isDigit(userInput.charAt(0)) && isIntegerArgument)
+                    if(Character.isDigit(userInput.charAt(0)))
                     {
+                    	 if(!isIntegerArgument)
+                         {
+                             logger.debug(MessageFormat.format("Invalid Bet: {0} {1}", userInput.substring(1).trim(),"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
+                         }
+                    	 else
                         horseRaceParkSimulator.getInputMessageQueue().handleUserInput(new UserInput(Character.valueOf(userInput.charAt(0)), numberArgument));
-                    }
-                    else if(isIntegerArgument){
-                        horseRaceParkSimulator.getInputMessageQueue().handleUserInput(new UserInput(Character.valueOf(userInput.charAt(0)), numberArgument));
-                    }
-                    else if(!isIntegerArgument)
-                    {
-                        logger.debug(MessageFormat.format("Invalid Bet: {0} {1}", userInput.substring(1).trim(),"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
                     }
                     else if(isIntegerCommand){
                         logger.debug(MessageFormat.format("Invalid Horse Number: {0} {1}", numberCommand,"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
-
                     }
-
                 }
 
             }catch (IOException e){
