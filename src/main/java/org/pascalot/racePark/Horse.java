@@ -13,10 +13,10 @@ public class Horse implements Serializable , Comparable<Horse> {
     private static final String SELF = Thread.currentThread().getStackTrace()[1].getClassName();
     private static final Logger logger = LoggerFactory.getLogger(SELF);
 
-    public Horse(Integer id, Integer odds, String name) {
+    public Horse(Integer id,  String name, Integer odds) {
         this.id = id;
-        this.odds = odds;
         this.name = name;
+        this.odds = odds;
     }
 
     private Integer id;

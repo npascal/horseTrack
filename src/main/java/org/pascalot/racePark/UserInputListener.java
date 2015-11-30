@@ -3,8 +3,9 @@ package org.pascalot.racePark;
 import org.pascalot.io.UserInput;
 
 /**
- * Created by hamisu on 11/27/15.
+ * Created by hamisu on 11/24/15.
  */
-public interface UserInputListener {
+public interface UserInputListener
+{
     void handleUserInput(UserInput userInput);
 }

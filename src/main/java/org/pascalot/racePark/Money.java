@@ -19,6 +19,11 @@ public class Money implements Serializable {
         this.denomination = denomination;
     }
 
+    public Currency getCurrency()
+    {
+        return currency;
+    }
+
     private Currency currency;
     private Integer denomination;
 
