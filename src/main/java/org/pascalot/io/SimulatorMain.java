@@ -17,7 +17,7 @@ public class SimulatorMain
     private static final String SELF = Thread.currentThread().getStackTrace()[1].getClassName();
     private static final Logger logger = LoggerFactory.getLogger(SELF);
 
-    public static void main(String [ ] args)
+    public static void main(String [] args)
     {
         HorseRaceParkSimulator horseRaceParkSimulator = new HorseRaceParkSimulator();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -36,18 +36,22 @@ public class SimulatorMain
                 {
                     System.exit(-1);
                 }
-                if(userInput.length()==1 && !Character.isWhitespace(userInput.charAt(0)))
+                if(!userInput.isEmpty()){
+                String[] input = userInput.split(" ");
+                if(input != null)
+                {
+                if(input.length==1 && !Character.isWhitespace(input[0].charAt(0)))
                 {
                     logger.debug("processing user input: " + userInput);
                     if(Character.isDigit(userInput.charAt(0)))
                     {
                         logger.debug("commandString is a digit: " + userInput);
-                        horseRaceParkSimulator.getInputMessageQueue().handleUserInput(new UserInput(Character.valueOf(Character.forDigit(userInput.charAt(0), 10)), null));
+                        logger.debug(MessageFormat.format("Invalid Bet: {0} {1}", userInput.substring(1).trim(),"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
                     }
                     else
                         horseRaceParkSimulator.getInputMessageQueue().handleUserInput(new UserInput(Character.valueOf(userInput.charAt(0)),null));
                 }
-                else if(userInput.length() >= 3)
+                else if(input.length == 2)
                 {
                     logger.debug("processing user input: " + userInput);
                     boolean isIntegerArgument = false;
@@ -56,33 +60,44 @@ public class SimulatorMain
                     Integer numberArgument;
                     try
                     {
-                        numberArgument =Integer.parseInt(userInput.substring(1).trim());
+                    	logger.debug(input[1]);
+                        numberArgument =Integer.parseInt(input[1]);
                         isIntegerArgument = true;
                     }catch (NumberFormatException nfe){
                         numberArgument = null;
                         isIntegerArgument = false;
                     }
-
                     try
                     {
-                        numberCommand =Integer.parseInt(userInput.split(" ")[0]);
+                    	logger.debug(input[0]);
+                        numberCommand =Integer.parseInt(input[0]);
                         isIntegerCommand = true;
                     }catch (NumberFormatException nfe){
                         numberCommand = null;
                         isIntegerCommand = false;
                     }
-                    if(Character.isDigit(userInput.charAt(0)))
+                    if(isIntegerCommand && numberCommand < 10 &&  Character.isDigit(input[0].charAt(0)))
                     {
                     	 if(!isIntegerArgument)
                          {
-                             logger.debug(MessageFormat.format("Invalid Bet: {0} {1}", userInput.substring(1).trim(),"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
+                             logger.debug(MessageFormat.format("Invalid Bet: {0} {1}", input[1],"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
                          }
                     	 else
-                        horseRaceParkSimulator.getInputMessageQueue().handleUserInput(new UserInput(Character.valueOf(userInput.charAt(0)), numberArgument));
+                        horseRaceParkSimulator.getInputMessageQueue().handleUserInput(new UserInput(Character.valueOf(input[0].charAt(0)), numberArgument));
                     }
-                    else if(isIntegerCommand){
-                        logger.debug(MessageFormat.format("Invalid Horse Number: {0} {1}", numberCommand,"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
+                    else if(Character.isLetter(input[0].charAt(0))){
+                    	if(!isIntegerArgument)
+                        {
+                            logger.debug(MessageFormat.format("Invalid Horse Number: {0} {1}", numberCommand,"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
+                        }
+                    	else
+                            horseRaceParkSimulator.getInputMessageQueue().handleUserInput(new UserInput(Character.valueOf(input[0].charAt(0)), numberArgument));	
                     }
+                    else {
+                        logger.debug(MessageFormat.format("Invalid Command: {0} {1}", input[0],"\n"+horseRaceParkSimulator.getDefaultUserOutput().toString()));
+                    }
+                }
+                }
                 }
 
             }catch (IOException e){

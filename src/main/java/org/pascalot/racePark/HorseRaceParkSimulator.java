@@ -100,7 +100,7 @@ public class HorseRaceParkSimulator
             case 'W':
             case 'w':
             {
-                if(input.getArgument() != null)
+                if(input.getArgument() != null && inventory.hasHorseNumber(input.getArgument()))
                 {
                     setWinningNumber(input.getArgument());
                     output = getDefaultUserOutput();
